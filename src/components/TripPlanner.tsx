@@ -2,19 +2,23 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronRight, Sparkles, Map, Mountain, Waves, Landmark } from "lucide-react";
+import { X, ArrowRight, Check, Compass, Moon, Sun, Users2, Map } from "lucide-react";
 
-type Props = { isOpen: boolean; onClose: () => void; };
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 export default function TripPlanner({ isOpen, onClose }: Props) {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({ vibe: "", arrival: "", group: 1 });
+  const [formData, setFormData] = useState({
+    vibe: "",
+    pace: "",
+    groupSize: 1,
+    startMonth: "",
+  });
 
-  const vibes = [
-    { id: "spirit", title: "SPIRITUAL", icon: <Landmark size={32} />, desc: "Ancient temples & sacred peaks" },
-    { id: "wild", title: "UNTAINTED", icon: <Mountain size={32} />, desc: "Deep jungles & safari trails" },
-    { id: "azure", title: "AZURE", icon: <Waves size={32} />, desc: "Hidden bays & surf culture" },
-  ];
+  const nextStep = () => setStep((s) => s + 1);
 
   return (
     <AnimatePresence>
@@ -23,107 +27,129 @@ export default function TripPlanner({ isOpen, onClose }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex bg-[#0b2a2a] text-white overflow-hidden"
+          className="fixed inset-0 z-[100] flex justify-end bg-black/20 backdrop-blur-sm"
         >
-          {/* --- LEFT SIDE: Vertical Progress Storyline --- */}
-          <div className="hidden md:flex w-24 flex-col items-center justify-center border-r border-white/5 bg-black/20 py-12">
-            <div className="flex flex-col items-center gap-12">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex flex-col items-center gap-4">
-                  <div className={`h-2 w-2 rounded-full transition-all duration-500 ${step >= i ? "bg-white scale-125 shadow-[0_0_10px_white]" : "bg-white/10"}`} />
-                  <span className="vertical-text text-[8px] font-black tracking-[0.4em] opacity-20 uppercase">Stage 0{i}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Dismiss overlay area */}
+          <div className="hidden md:block flex-1" onClick={onClose} />
 
-          {/* --- RIGHT SIDE: Main Content --- */}
-          <div className="relative flex-1 flex flex-col items-center justify-center px-12">
-            <button onClick={onClose} className="absolute top-12 right-12 p-2 hover:rotate-90 transition-transform opacity-40 hover:opacity-100">
-              <X size={32} strokeWidth={1} />
-            </button>
+          {/* Right Journal Panel */}
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="w-full max-w-xl bg-[#0b2a2a] h-full shadow-2xl p-8 md:p-16 flex flex-col justify-between text-white border-l border-white/10"
+          >
+            <div className="relative">
+              <button onClick={onClose} className="absolute -left-4 top-0 opacity-40 hover:opacity-100">
+                <X size={24} />
+              </button>
 
-            <div className="w-full max-w-5xl">
-              {/* STEP 1: ATMOSPHERIC VIBE */}
-              {step === 1 && (
-                <motion.div initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-                  <div className="mb-12">
-                    <span className="text-[10px] font-black tracking-[0.5em] text-white/30 uppercase italic flex items-center gap-3">
-                      <Sparkles size={14} /> The Soul of the Trip
-                    </span>
-                    <h2 className="text-7xl md:text-[110px] font-black tracking-tighter leading-[0.85] mt-4">CHOOSE YOUR<br/><span className="italic text-transparent bg-clip-text bg-gradient-to-r from-white/40 to-white">ATMOSPHERE.</span></h2>
-                  </div>
+              {/* Step Indicator (Map Trail Style) */}
+              <div className="flex gap-2 mb-12 ml-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div 
+                    key={i} 
+                    className={`h-1 flex-1 rounded-full transition-all duration-500 ${step >= i ? "bg-white" : "bg-white/10"}`} 
+                  />
+                ))}
+              </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {vibes.map((v) => (
-                      <button
-                        key={v.id}
-                        onClick={() => { setFormData({ ...formData, vibe: v.title }); setStep(2); }}
-                        className="group relative p-10 rounded-[3rem] bg-white/5 border border-white/10 text-left transition-all hover:bg-white/10 hover:-translate-y-2"
-                      >
-                        <div className="mb-8 opacity-20 group-hover:opacity-100 group-hover:scale-110 transition-all">{v.icon}</div>
-                        <p className="text-[10px] font-black tracking-widest opacity-40 mb-2 uppercase">{v.title}</p>
-                        <p className="text-xs text-white/40 leading-relaxed font-medium">{v.desc}</p>
+              <div className="min-h-[500px]">
+                {/* --- STEP 1: ATMOSPHERIC VIBE --- */}
+                {step === 1 && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                    <Compass className="mb-6 opacity-30" size={32} />
+                    <h2 className="text-5xl font-black tracking-tighter leading-none mb-4">How should the<br/>journey feel?</h2>
+                    <p className="text-white/40 text-[10px] uppercase tracking-[0.3em] mb-12 font-bold">Define your atmosphere</p>
+                    
+                    <div className="space-y-3">
+                      {[
+                        { id: "mystic", label: "Mystic & Ancient", icon: "🛕", sub: "Hidden temples & spiritual ruins" },
+                        { id: "lush", label: "Lush & Infinite", icon: "🍃", sub: "Tea estates & emerald mountains" },
+                        { id: "raw", label: "Raw & Coastal", icon: "🐋", sub: "Untamed beaches & surf life" }
+                      ].map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => { setFormData({...formData, vibe: item.id}); nextStep(); }}
+                          className="w-full group flex items-center justify-between p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all text-left"
+                        >
+                          <div>
+                            <p className="text-xs font-black uppercase tracking-widest mb-1">{item.label}</p>
+                            <p className="text-[10px] text-white/30">{item.sub}</p>
+                          </div>
+                          <span className="text-2xl opacity-50 group-hover:opacity-100 transition-opacity">{item.icon}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* --- STEP 2: THE PACE --- */}
+                {step === 2 && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                    <Sun className="mb-6 opacity-30" size={32} />
+                    <h2 className="text-5xl font-black tracking-tighter leading-none mb-12">Set the rhythm.</h2>
+                    
+                    <div className="grid grid-cols-1 gap-4">
+                      <button onClick={() => { setFormData({...formData, pace: "slow"}); nextStep(); }} className="p-8 rounded-3xl bg-white/5 border border-white/10 text-left hover:bg-white hover:text-[#0b2a2a] transition-all">
+                        <p className="text-lg font-black uppercase tracking-tighter">Slow & Deep</p>
+                        <p className="text-[10px] opacity-60 mt-1 uppercase font-bold tracking-widest">3 Cities in 10 Days</p>
                       </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* STEP 2: LOGISTICS */}
-              {step === 2 && (
-                <motion.div initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="flex flex-col items-center text-center">
-                  <h2 className="text-6xl md:text-9xl font-black tracking-tighter mb-20 italic">The details.</h2>
-                  
-                  <div className="flex flex-col md:flex-row gap-24 items-center">
-                    <div className="space-y-6">
-                      <p className="text-[10px] font-black tracking-widest opacity-20 uppercase">Who travels?</p>
-                      <div className="flex items-center gap-10">
-                        <button onClick={() => setFormData({...formData, group: Math.max(1, formData.group - 1)})} className="text-4xl opacity-20 hover:opacity-100 transition-opacity">−</button>
-                        <span className="text-[120px] font-black leading-none">{formData.group}</span>
-                        <button onClick={() => setFormData({...formData, group: formData.group + 1})} className="text-4xl opacity-20 hover:opacity-100 transition-opacity">+</button>
-                      </div>
+                      <button onClick={() => { setFormData({...formData, pace: "fast"}); nextStep(); }} className="p-8 rounded-3xl bg-white/5 border border-white/10 text-left hover:bg-white hover:text-[#0b2a2a] transition-all">
+                        <p className="text-lg font-black uppercase tracking-tighter">The Grand Tour</p>
+                        <p className="text-[10px] opacity-60 mt-1 uppercase font-bold tracking-widest">7 Cities in 10 Days</p>
+                      </button>
                     </div>
+                  </motion.div>
+                )}
 
-                    <div className="h-40 w-[1px] bg-white/10 hidden md:block" />
-
-                    <div className="space-y-8">
-                      <p className="text-[10px] font-black tracking-widest opacity-20 uppercase">When do you arrive?</p>
-                      <input 
-                        type="date" 
-                        className="bg-transparent text-4xl md:text-5xl font-black outline-none border-b-2 border-white/10 pb-4 focus:border-white transition-colors"
-                        onChange={(e) => setFormData({...formData, arrival: e.target.value})}
-                      />
+                {/* --- STEP 3: COMPANIONS --- */}
+                {step === 3 && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                    <Users2 className="mb-6 opacity-30" size={32} />
+                    <h2 className="text-5xl font-black tracking-tighter leading-none mb-12">Who shares<br/>this story?</h2>
+                    
+                    <div className="flex flex-wrap gap-3">
+                      {[1, 2, 3, 4, 5, "6+"].map((num) => (
+                        <button
+                          key={num}
+                          onClick={() => { setFormData({...formData, groupSize: Number(num) || 6}); nextStep(); }}
+                          className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center font-black text-xl hover:bg-white hover:text-[#0b2a2a] transition-all"
+                        >
+                          {num}
+                        </button>
+                      ))}
                     </div>
-                  </div>
+                  </motion.div>
+                )}
 
-                  <button 
-                    onClick={() => setStep(3)} 
-                    className="mt-24 group bg-white text-[#0b2a2a] px-14 py-7 rounded-full font-black text-xs uppercase tracking-[0.3em] flex items-center gap-4 hover:scale-105 transition-transform"
-                  >
-                    Generate Journey <ChevronRight size={18} />
-                  </button>
-                </motion.div>
-              )}
-
-              {/* STEP 3: RESULT */}
-              {step === 3 && (
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center">
-                  <div className="bg-white/10 p-6 rounded-full inline-block mb-12">
-                    <Map size={48} className="animate-pulse" />
-                  </div>
-                  <h2 className="text-7xl md:text-9xl font-black tracking-tighter leading-[0.85] italic mb-10">Your Route<br/>is Defined.</h2>
-                  <p className="max-w-xl mx-auto text-white/40 text-sm leading-loose tracking-widest uppercase mb-16">
-                    An artisanal {formData.vibe} odyssey. Designed specifically for {formData.group} people, commencing on {formData.arrival}.
-                  </p>
-                  <div className="flex justify-center gap-6">
-                    <button className="bg-white text-[#0b2a2a] px-12 py-6 rounded-full font-black text-xs uppercase tracking-widest">Download Full Plan</button>
-                    <button onClick={() => setStep(1)} className="border border-white/20 px-12 py-6 rounded-full font-black text-xs uppercase tracking-widest hover:bg-white/5 transition-all">Start Over</button>
-                  </div>
-                </motion.div>
-              )}
+                {/* --- STEP 4: RESULT REVEAL --- */}
+                {step === 4 && (
+                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
+                    <div className="bg-white text-[#0b2a2a] w-12 h-12 rounded-full flex items-center justify-center mb-8">
+                      <Map size={24} />
+                    </div>
+                    <h2 className="text-6xl font-black tracking-tighter leading-[0.9] mb-6">Your Map is Drawn.</h2>
+                    <p className="text-white/40 text-[11px] font-bold uppercase tracking-[0.2em] leading-relaxed mb-12">
+                      An artisanal {formData.vibe} journey curated for {formData.groupSize} explorers.
+                    </p>
+                    
+                    <div className="space-y-4">
+                      <button className="w-full bg-white text-[#0b2a2a] py-6 rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-2xl">Download Private Itinerary</button>
+                      <button onClick={() => setStep(1)} className="w-full border border-white/20 py-6 rounded-2xl font-black uppercase text-[11px] tracking-widest opacity-40">Start Over</button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
             </div>
-          </div>
+
+            {/* Footer Brand */}
+            <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.4em] opacity-20">
+              <span>Ceylon Concierge</span>
+              <span>v.2026</span>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
