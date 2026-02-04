@@ -30,15 +30,14 @@ const reviews = [
 
 export default function Reviews() {
     return (
-        <section className="relative pt-32 pb-24 bg-[#4a5d45]">
-            {/* Cloud Top Transition - Reusing the cloud asset to blend from top */}
-            <div className="absolute top-[-150px] left-0 right-0 z-20 pointer-events-none w-full overflow-hidden">
+        <section className="relative pt-64 pb-24 bg-[#4a5d45]">
+            {/* Cloud Top Transition - Centered on the boundary */}
+            <div className="absolute top-[-200px] left-0 right-0 z-20 pointer-events-none w-full h-[500px] overflow-hidden">
                 <Image
                     src="/images/clouds.png"
                     alt="cloud divider"
-                    width={2600}
-                    height={800}
-                    className="w-full object-cover opacity-100 scale-110"
+                    fill
+                    className="object-contain object-center scale-110"
                 />
             </div>
 
