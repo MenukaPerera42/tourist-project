@@ -1,13 +1,14 @@
 import Hero from "@/components/Hero/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Image from "next/image";
+import Reviews from "@/components/Reviews";
 
 export default function Home() {
   return (
     <main className="relative bg-[#f4f7f4]">
       {/* Hero Section */}
       <Hero />
-      
+
       {/* THE CLOUD BRIDGE: Positioned to overlap the junction */}
       <div className="relative z-30 -mt-[180px] md:-mt-[220px] pointer-events-none">
         <div className="w-full">
@@ -26,6 +27,9 @@ export default function Home() {
       <div className="relative z-10 -mt-1">
         <HowItWorks />
       </div>
+
+      {/* Reviews Section */}
+      <Reviews />
     </main>
   );
 }
