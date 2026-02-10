@@ -24,12 +24,15 @@ export default function HowItWorks() {
   return (
     <section className="relative bg-[#4a5d45] py-24 px-6 text-white">
       <div className="mx-auto max-w-4xl text-center">
+        {/* Decorative Vertical Bar */}
+        <div className="mx-auto mb-8 h-12 w-1.5 bg-[#8FBC8F]/50"></div>
+
         {/* Section Title */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 text-xs font-black uppercase tracking-[0.4em] text-white/90"
+          className="mb-16 text-4xl md:text-5xl font-black uppercase tracking-tighter text-white"
         >
           HOW IT WORKS
         </motion.h2>
@@ -69,7 +72,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Decorative Divider Line */}
-        <motion.div 
+        <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}

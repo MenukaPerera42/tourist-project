@@ -1,6 +1,6 @@
 import Hero from "@/components/Hero/Hero";
 import HowItWorks from "@/components/HowItWorks";
-import Image from "next/image";
+import Destinations from "@/components/Destinations";
 import Reviews from "@/components/Reviews";
 
 export default function Home() {
@@ -9,23 +9,14 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
 
-      {/* THE CLOUD BRIDGE: Positioned to overlap the junction */}
-      <div className="relative z-30 -mt-[180px] md:-mt-[220px] pointer-events-none">
-        <div className="w-full">
-          <Image
-            src="/images/clouds.png"
-            alt="Cloud Divider"
-            width={2600}
-            height={800}
-            className="h-auto w-full object-contain scale-110"
-            priority
-          />
-        </div>
+      {/* How It Works Section - Pulled up to blend with Hero Clouds */}
+      <div className="relative z-10 -mt-24 md:-mt-48">
+        <HowItWorks />
       </div>
 
-      {/* How It Works Section */}
-      <div className="relative z-10 -mt-1">
-        <HowItWorks />
+      {/* Destinations Section */}
+      <div id="destinations" className="relative z-10">
+        <Destinations />
       </div>
 
       {/* Reviews Section */}
