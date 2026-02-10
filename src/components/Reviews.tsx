@@ -30,85 +30,100 @@ const reviews = [
 
 export default function Reviews() {
     return (
-        <section className="relative pt-64 pb-24 bg-[#4a5d45]">
-            {/* Cloud Top Transition - Centered on the boundary */}
-            <div className="absolute top-[-200px] left-0 right-0 z-20 pointer-events-none w-full h-[500px] overflow-hidden">
+        <section className="relative w-full bg-[#4a5d45]">
+
+            {/* --- TOP SECTION: Call to Action (Dark) --- */}
+            <div className="relative bg-[#0F2826] pt-32 pb-40 md:pb-80 px-6 text-center z-10">
+                <div className="max-w-4xl mx-auto flex flex-col items-center">
+                    <p className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white/60 uppercase mb-6">
+                        Travel Made Simple, Stories Made Unforgettable.
+                    </p>
+                    <h2 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-white leading-[0.9] mb-12">
+                        We Make Planning <br />
+                        Effortless So You Can Focus <br />
+                        On What Really Matters
+                    </h2>
+                    <button className="px-8 py-4 rounded-full border border-white/20 text-white text-xs font-bold tracking-widest uppercase hover:bg-white hover:text-[#0F2826] transition-all">
+                        Start Planning Your Trip
+                    </button>
+                </div>
+            </div>
+
+            {/* --- CLOUD DIVIDER --- */}
+            <div className="relative z-20 -mt-32 md:-mt-56 h-[250px] md:h-[500px] w-full pointer-events-none overflow-hidden">
                 <Image
-                    src="/images/clouds.png"
-                    alt="cloud divider"
+                    src="/images/Clouds.png"
+                    alt="Cloud Divider"
                     fill
-                    className="object-contain object-center scale-110"
+                    className="object-cover object-center scale-110"
                 />
             </div>
 
-            <div className="container mx-auto px-6 md:px-12 relative z-30">
+            {/* --- BOTTOM SECTION: Reviews (Green) --- */}
+            <div className="relative bg-[#4a5d45] pt-32 md:pt-80 pb-32 px-6 z-10 -mt-24 md:-mt-64">
+                <div className="container mx-auto max-w-7xl">
 
-                {/* Main Headline */}
-                <div className="text-center mb-20 md:mb-32">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white leading-tight"
-                    >
-                        Read Reviews,<br />
-                        Travel with Confidence
-                    </motion.h2>
-                </div>
-
-                <div className="flex flex-col md:flex-row gap-12 md:gap-24 items-start">
-
-                    {/* Left Column: Title & Quote Icon */}
-                    <div className="md:w-1/4 shrink-0 top-12 md:sticky">
-                        <Quote className="w-16 h-16 text-white mb-6" fill="white" />
-                        <h3 className="text-4xl font-black uppercase tracking-tighter text-white leading-none">
-                            What Our<br />
-                            Customers<br />
-                            Are<br />
-                            Saying
-                        </h3>
+                    {/* Section Heading */}
+                    <div className="text-center mb-24">
+                        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white leading-none">
+                            Read Reviews,<br />
+                            Travel with Confidence
+                        </h2>
                     </div>
 
-                    {/* Right Column: Reviews Grid/Scroll */}
-                    <div className="md:w-3/4 w-full">
-                        <div className="flex flex-nowrap overflow-x-auto gap-6 pb-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible no-scrollbar">
-                            {reviews.map((review, i) => (
-                                <motion.div
-                                    key={review.id}
-                                    initial={{ opacity: 0, x: 50 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="flex-shrink-0 w-[85vw] md:w-auto p-8 rounded-3xl border border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors"
-                                >
-                                    <div className="flex gap-1 mb-6">
-                                        {[...Array(review.rating)].map((_, idx) => (
-                                            <Star key={idx} className="w-5 h-5 text-[#00d29d]" fill="#00d29d" />
-                                        ))}
-                                    </div>
+                    <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
 
-                                    <p className="text-[11px] font-bold leading-relaxed tracking-wide text-white/90 mb-8 uppercase">
-                                        "{review.text}"
-                                    </p>
+                        {/* Left Column: Quote & Title */}
+                        <div className="lg:w-1/4 shrink-0 top-12 lg:sticky">
+                            <Quote className="w-16 h-16 text-white mb-6" fill="white" />
+                            <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                                What Our<br />
+                                Customers<br />
+                                Are<br />
+                                Saying
+                            </h3>
+                        </div>
 
-                                    <div className="flex items-center gap-4 mt-auto">
-                                        <div className="w-10 h-10 rounded-full bg-[#d9d9d9]" />
-                                        <div>
-                                            <div className="text-[9px] font-black uppercase tracking-wider text-white">
-                                                {review.author}
-                                            </div>
-                                            <div className="text-[9px] font-bold uppercase tracking-wider text-white/50">
-                                                {review.time}
+                        {/* Right Column: Cards */}
+                        <div className="lg:w-3/4 w-full">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {reviews.map((review, i) => (
+                                    <motion.div
+                                        key={review.id}
+                                        initial={{ opacity: 0, y: 30 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: i * 0.1 }}
+                                        className="flex flex-col p-8 rounded-2xl border border-white/20 bg-transparent hover:bg-white/5 transition-colors h-full"
+                                    >
+                                        <div className="flex gap-1 mb-8">
+                                            {[...Array(review.rating)].map((_, idx) => (
+                                                <Star key={idx} className="w-4 h-4 text-[#00d29d]" fill="#00d29d" />
+                                            ))}
+                                        </div>
+
+                                        <p className="text-[10px] font-bold leading-relaxed tracking-wider text-white/90 mb-8 uppercase grow">
+                                            "{review.text}"
+                                        </p>
+
+                                        <div className="flex items-center gap-4 mt-auto pt-6 border-t border-white/10">
+                                            <div className="w-8 h-8 rounded-full bg-white/20" />
+                                            <div className="flex flex-col text-left">
+                                                <span className="text-[9px] font-black uppercase tracking-wider text-white">
+                                                    {review.author}
+                                                </span>
+                                                <span className="text-[8px] font-bold uppercase tracking-wider text-white/50">
+                                                    {review.time}
+                                                </span>
                                             </div>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            ))}
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
+
                     </div>
-
                 </div>
-
             </div>
         </section>
     );
